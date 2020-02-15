@@ -8,9 +8,10 @@ This project will, based on the [Visual Studio Code](https://code.visualstudio.c
 
 ## Design Goals
 
-1. Create any additional colors needed programmatically, based on the original _One Dark Pro_ colors.
-2. Allow creating configuration files for all the terminal emulators the author ([@scy](https://github.com/scy)) is using.
-3. If there are things that suck (according to me) in the original theme, try to fix them.
+1. Create any colors needed **programmatically**, based on the original _One Dark Pro_ colors.
+2. Represent **the usual ANSI colors**. There are some people who get really creative with color schemes that basically contain only three colors in different variations. This can look beautiful, but once you have a diff where the added lines are yellow and the removed lines are a slightly lighter yellow, it gets annoying.
+2. Allow **creating configuration files** for all the terminal emulators the author ([@scy](https://github.com/scy)) is using.
+3. If there are things that suck (according to me) in the original theme, try to **fix them**.
 
 ## Status
 
@@ -50,15 +51,6 @@ Read the code for more information.
 This project supersedes the [_Unexciting_](https://github.com/scy/unexciting) theme only two days after its initial creation.
 This is because after creating _Unexciting_, I found out that creating a VS Code theme is more work that I want to invest.
 Therefore, I had to choose an existing theme and create the terminal palettes based on it.
-
-Other differences:
-
-* _Unexciting_ explicitly listed good readability as a requirement, with “blue on black” and “gray on color” as explicit examples of what was supposed to look good.
-  Now, _One Dark Pro's_ blue is bright enough to look good on black, but the default text color (which is color 7 or “foreground” in this theme) doesn't look good on a colored background.
-  To be honest, other colors don't look good on colored backgrounds either (think WeeChat status bar with highlighted channels).
-  My current plan is to configure the CLI software to use better color combinations instead of changing the terminal's theme colors, but I'm not sure yet.
-* _Unexciting_ also explicitly listed ANSI color compatibility as a requirement.
-  This is basically implemented implicitly by choosing matching colors from _One Dark Pro's_ palette.
 
 ## License
 
