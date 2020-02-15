@@ -105,6 +105,13 @@ class ThemeConverter:
             specialFormat="*.{0}: {1}\n",
         )
 
+    def updateWindowsConsole(self):
+        # Update Windows Console colors in-place as an OSC sequence:
+        # ESC ] 4 ; <index> ; "rgb:" <rr> "/" <gg> "/" <bb> ESC \
+        for idx in range(16):
+            hexval = self.rgb[idx].get_rgb_hex()
+            print("\x1b]4;{0};rgb:{1}/{2}/{3}\x1b\\".format(idx, hexval[1:3], hexval[3:5], hexval[5:7]), end="")
+
 
 if __name__ == "__main__":
     from os import makedirs
@@ -121,3 +128,4 @@ if __name__ == "__main__":
         print("Creating " + filename + " ...")
         with open("out/" + filename, "w") as file:
             file.write(method(tc))
+    tc.updateWindowsConsole()
