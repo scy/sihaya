@@ -2,9 +2,9 @@
 
 This project will, based on the [Visual Studio Code](https://code.visualstudio.com/) color scheme [_One Dark Pro_](https://binaryify.github.io/OneDark-Pro/), create a full 16 color [ANSI palette](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors) for use in terminal emulators, other editors etc.
 
-## Screenshots
+## Screenshot
 
-Please see the [_One Dark Pro_ website](https://binaryify.github.io/OneDark-Pro/) for examples of how this will look.
+![Screenshot of a color table](color-table.png)
 
 ## Design Goals
 
