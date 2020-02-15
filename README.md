@@ -10,8 +10,8 @@ This project will, based on the [Visual Studio Code](https://code.visualstudio.c
 
 1. Create any colors needed **programmatically**, based on the original _One Dark Pro_ colors.
 2. Represent **the usual ANSI colors**. There are some people who get really creative with color schemes that basically contain only three colors in different variations. This can look beautiful, but once you have a diff where the added lines are yellow and the removed lines are a slightly lighter yellow, it gets annoying.
-2. Allow **creating configuration files** for all the terminal emulators the author ([@scy](https://github.com/scy)) is using.
-3. If there are things that suck (according to me) in the original theme, try to **fix them**.
+3. Allow **creating configuration files** for all the terminal emulators the author ([@scy](https://github.com/scy)) is using.
+4. If there are things that suck (according to me) in the original theme, try to **fix them**.
 
 ## Status
 
