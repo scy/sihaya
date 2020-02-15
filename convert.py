@@ -25,21 +25,26 @@ class ThemeConverter:
 
         # Create other colors based on the predefined ones.
         # The original "white" (rather "lightDark") is not light enough.
-        self.rgb[7] = self.modHSV(self.rgb[7], vFac=1.35)
+        # Also, make it warmer by messing with the hue.
+        # TODO: Changing hue by _factor_ is nonsense, this could use a better API.
+        self.rgb[7] = self.modHSV(self.rgb[7], hFac=0.2, sFac=0.5, vFac=1.7)
         # Background color (aka "black") is based on white.
-        self.rgb[0] = self.modHSV(self.rgb[7], sFac=2, vFac=.25)
+        self.rgb[0] = self.modHSV(self.rgb[7], sFac=2, vFac=.15)
+
+        # Crank up saturation to the max to increase color-on-colored-background contrast.
+        # To compensate, make it darker.
+        for i in range(1, 8):
+            self.rgb[i] = self.modHSV(self.rgb[i], sFac=2.5, vFac=0.85)
 
         # "Light" versions are computed from the non-light ones.
-        # Actually, these are not really "lighter", but basically correspond to
-        # the "vibrant" variant in the originial One Dark Pro theme.
         for i in range(1, 7):
-            self.rgb[i + 8] = self.modHSV(self.rgb[i], sFac=1.25)
+            self.rgb[i + 8] = self.modHSV(self.rgb[i], vFac=1.5)
         # Black and white need to be handled specially though to look decent.
         for i in [0, 7]:
-            self.rgb[i + 8] = self.modHSV(self.rgb[i], sFac=0.85, vFac=2)
+            self.rgb[i + 8] = self.modHSV(self.rgb[i], sFac=0.85, vFac=2.3)
 
         # Finally, create a greenish cursor color.
-        self.rgb[16] = self.modHSV(self.rgb[2], sFac=2.5, vFac=1.2)
+        self.rgb[16] = self.modHSV(self.rgb[2], sFac=2.5, vFac=1.5)
 
     def modHSV(self, srgb, hFac=1, sFac=1, vFac=1):
         """Do HSV factor multiplications on a given sRGB color."""
