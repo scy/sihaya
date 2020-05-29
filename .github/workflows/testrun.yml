@@ -25,3 +25,8 @@ jobs:
     - name: Run conversion
       run: |
         pipenv run python convert.py
+    - uses: actions/upload-artifact@v2
+      if: success()
+      with:
+        name: theme-files
+        path: out/*
