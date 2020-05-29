@@ -1,0 +1,32 @@
+name: Test Run
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+        pipenv install
+    - name: Run conversion
+      run: |
+        pipenv run python convert.py
+    - uses: actions/upload-artifact@v2
+      if: success()
+      with:
+        name: theme-files
+        path: out/*
