@@ -121,9 +121,9 @@ class ThemeConverter:
 if __name__ == "__main__":
     from os import makedirs
     conversions = {
-        "one-dark-pro.termux.properties": ThemeConverter.toTermux,
-        "one-dark-pro.reg": ThemeConverter.toWindowsConsole,
-        "one-dark-pro.Xresources": ThemeConverter.toXresources,
+        "sihaya.termux.properties": ThemeConverter.toTermux,
+        "sihaya.reg": ThemeConverter.toWindowsConsole,
+        "sihaya.Xresources": ThemeConverter.toXresources,
     }
     print("Reading input file ...")
     with open("onedark-pro/src/color.json", "r") as file:
