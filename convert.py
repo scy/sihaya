@@ -74,6 +74,15 @@ class ThemeConverter:
             result += normalFormat.format(idx, self.rgb[idx].get_rgb_hex())
         return result
 
+    def toLinuxShell(self):
+        result = "#!/bin/sh\n"
+        result += 'if [ "$TERM" = "linux" ]; then\n'
+        result += "\tprintf '"
+        result += "".join(["\\e]P{0:X}{1}".format(i, self.rgb[i].get_rgb_hex()[1:]) for i in range(16)])
+        result += "'\n"
+        result += "fi\n"
+        return result
+
     def toTermux(self):
         return self.toKeyValue(
             specials={
@@ -110,6 +119,11 @@ class ThemeConverter:
             specialFormat="*.{0}: {1}\n",
         )
 
+    def updateLinuxConsole(self):
+        for idx in range(16):
+            hexval = self.rgb[idx].get_rgb_hex()
+            print("\x1b]P{0:X}{1}".format(idx, hexval[1:]))
+
     def updateWindowsConsole(self):
         # Update Windows Console colors in-place as an OSC sequence:
         # ESC ] 4 ; <index> ; "rgb:" <rr> "/" <gg> "/" <bb> ESC \
@@ -123,6 +137,7 @@ if __name__ == "__main__":
     conversions = {
         "sihaya.termux.properties": ThemeConverter.toTermux,
         "sihaya.reg": ThemeConverter.toWindowsConsole,
+        "sihaya.sh": ThemeConverter.toLinuxShell,
         "sihaya.Xresources": ThemeConverter.toXresources,
     }
     print("Reading input file ...")

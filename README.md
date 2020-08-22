@@ -29,6 +29,7 @@ If you like them too, that’s great, and if you have improvements to suggest, f
 
 ## Supported Terminals/Editors
 
+* Linux Console (text/framebuffer mode)
 * [Termux](https://termux.com/)
 * Windows Console (`cmd.exe`)
 * xterm (via `.Xresources` file)
@@ -37,7 +38,6 @@ Visual Studio Code users should instead install the original [_One Dark Pro_ ext
 
 Planned:
 
-* Linux text mode
 * [Windows Terminal](https://github.com/Microsoft/Terminal)
 
 ## Building
