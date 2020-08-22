@@ -74,6 +74,18 @@ class ThemeConverter:
             result += normalFormat.format(idx, self.rgb[idx].get_rgb_hex())
         return result
 
+    def toLinuxKernel(self):
+        colors = [self.rgb[i].get_upscaled_value_tuple() for i in range(16)]
+        channels = {
+            "red": ','.join([str(color[0]) for color in colors]),
+            "grn": ','.join([str(color[1]) for color in colors]),
+            "blu": ','.join([str(color[2]) for color in colors]),
+        }
+        return channels
+
+    def toLinuxKernelCmdline(self):
+        return ' '.join(["vt.default_{0}={1}".format(*item) for item in self.toLinuxKernel().items()])
+
     def toLinuxShell(self):
         result = "#!/bin/sh\n"
         result += 'if [ "$TERM" = "linux" ]; then\n'
@@ -135,6 +147,7 @@ class ThemeConverter:
 if __name__ == "__main__":
     from os import makedirs
     conversions = {
+        "sihaya.cmdline": ThemeConverter.toLinuxKernelCmdline,
         "sihaya.termux.properties": ThemeConverter.toTermux,
         "sihaya.reg": ThemeConverter.toWindowsConsole,
         "sihaya.sh": ThemeConverter.toLinuxShell,
