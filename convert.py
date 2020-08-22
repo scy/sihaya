@@ -133,4 +133,3 @@ if __name__ == "__main__":
         print("Creating " + filename + " ...")
         with open("out/" + filename, "w") as file:
             file.write(method(tc))
-    tc.updateWindowsConsole()
