@@ -8,6 +8,3 @@ verify_ssl = true
 [packages]
 colormath = "*"
 flake8 = "*"
-
-[requires]
-python_version = "3.7"
