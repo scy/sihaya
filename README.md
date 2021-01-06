@@ -29,6 +29,7 @@ If you like them too, that’s great, and if you have improvements to suggest, f
 
 ## Supported Terminals/Editors
 
+* [Alacritty](https://github.com/alacritty/alacritty)
 * Linux Console (text/framebuffer mode)
   * either via a shell script (by sending escape codes) or kernel command line parameters
 * [Termux](https://termux.com/)

@@ -1,6 +1,7 @@
 from colormath.color_conversions import convert_color
 from colormath.color_objects import HSVColor, sRGBColor
 import json
+import yaml
 
 
 class ThemeConverter:
@@ -73,6 +74,22 @@ class ThemeConverter:
         for idx in range(16):
             result += normalFormat.format(idx, self.rgb[idx].get_rgb_hex())
         return result
+
+    def toAlacritty(self):
+        res = {}
+        for fac, intense in enumerate(['normal', 'bright']):
+            res[intense] = {}
+            for idx, color in enumerate('black red green yellow blue magenta cyan white'.split(' ')):
+                res[intense][color] = self.rgb[(8*fac)+idx].get_rgb_hex()
+        res['primary'] = {
+            'foreground': self.rgb[7].get_rgb_hex(),
+            'background': self.rgb[0].get_rgb_hex(),
+        }
+        res['cursor'] = {
+            'text': self.rgb[0].get_rgb_hex(),
+            'cursor': self.rgb[16].get_rgb_hex(),
+        }
+        return yaml.dump({'colors': res})
 
     def toLinuxKernel(self):
         colors = [self.rgb[i].get_upscaled_value_tuple() for i in range(16)]
@@ -147,6 +164,7 @@ class ThemeConverter:
 if __name__ == "__main__":
     from os import makedirs
     conversions = {
+        "sihaya.alacritty": ThemeConverter.toAlacritty,
         "sihaya.cmdline": ThemeConverter.toLinuxKernelCmdline,
         "sihaya.termux.properties": ThemeConverter.toTermux,
         "sihaya.reg": ThemeConverter.toWindowsConsole,

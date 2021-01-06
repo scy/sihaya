@@ -8,3 +8,4 @@ verify_ssl = true
 [packages]
 colormath = "*"
 flake8 = "*"
+pyyaml = "*"
