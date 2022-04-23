@@ -7,6 +7,7 @@ import yaml
 class ThemeConverter:
 
     color_names = "black red green yellow blue magenta cyan white".split(" ")
+    color_letters = "krgybmcw"
 
     odp2ansi = {
         1: "error",         # red
@@ -125,6 +126,114 @@ class ThemeConverter:
             specialFormat="{0}={1}\n",
         )
 
+    def toVim(self):
+        longflags = {
+            "b": "bold",
+            "c": "undercurl",
+            "i": "italic",
+            "l": "underline",
+            "r": "reverse",
+            "s": "strikethrough",
+        }
+        attrs = {
+            "Normal": "wk",
+            "ColorColumn": " w",
+            "Conceal": "Ww",
+            "CursorColumn": " w",
+            "CursorLine": "  l",
+            "CursorLineNr": "w",
+            "Directory": "c",
+            "DiffAdd": " g",
+            "DiffChange": " b",
+            "DiffDelete": " r",
+            "DiffText": "  l",
+            "ErrorMsg": ">Error",
+            "FoldColumn": "cw",
+            "Folded": "cw",
+            "IncSearch": "  r",
+            "LineNr": "K",
+            "MatchParen": " c",
+            "ModeMsg": "  b",
+            "MoreMsg": ">Question",
+            "NonText": "b",
+            "Pmenu": "km",
+            "PmenuSbar": "kw",
+            "PmenuSel": "K",
+            "PmenuThumb": "kk",
+            "Question": "g b",
+            "QuickFixLine": ">Search",
+            "Search": "ky",
+            "SignColumn": "bw",
+            "SpecialKey": "c b",
+            "SpellBad": " rc",
+            "SpellCap": " bc",
+            "SpellLocal": " cc",
+            "SpellRare": " mc",
+            "StatusLine": "  rb",
+            "StatusLineNC": "  r",
+            "StatusLineTerm": "kgb",
+            "StatusLineTermNC": "kg",
+            "TabLine": "kwl",
+            "TabLineFill": "  r",
+            "TabLineSel": "  b",
+            "Title": "M b",
+            "Visual": "  r",
+            "VisualNOS": "-",
+            "WarningMsg": "R",
+            "WildMenu": ">Search",
+            "VertSplit": "  r",
+            # Syntax
+            "Error": "Wr",
+            "Constant": "R",
+            "Identifier": "C b",
+            "PreProc": "M",
+            "Statement": "Y b",
+            "Todo": "by",
+            "Type": "G b",
+            "Special": "B",
+        }
+
+        def color(letter):
+            if letter == " " or letter == "":
+                return None
+            lower = letter.lower()
+            idx = self.color_letters.find(lower)
+            if lower != letter:
+                idx += 8
+            return idx, self.rgb[idx].get_rgb_hex()
+
+        def hiline(group, cfg):
+            if cfg[0] == "-":
+                return "hi clear {}".format(group)
+            if cfg[0] == ">":
+                return "hi link {} {}".format(group, cfg[1:])
+            fg = color(cfg[0])
+            bg = None if len(cfg) < 2 else color(cfg[1])
+            flags = list(map(lambda f: longflags[f], cfg[2:]))
+            line = ["hi", group]
+            if fg is not None:
+                line.extend([
+                    "ctermfg={}".format(fg[0]),
+                    "guifg={}".format(fg[1]),
+                ])
+            if bg is not None:
+                line.extend([
+                    "ctermbg={}".format(bg[0]),
+                    "guibg={}".format(bg[1]),
+                ])
+            if flags:
+                flags = ",".join(flags)
+                line.extend(["cterm={}".format(flags), "gui={}".format(flags)])
+            return " ".join(line)
+
+        return "\n".join([
+            "set background=dark",
+            "highlight clear",
+            'let g:colors_name="sihaya"'
+        ] + [
+            hiline(group, cfg) for group, cfg in attrs.items()
+        ])
+
     def toWindowsConsole(self):
         # Console is swapping red and blue as well as yellow and cyan around.
         mapping = [0, 4, 2, 6, 1, 5, 3, 7, 8, 12, 10, 14, 9, 13, 11, 15]
@@ -192,6 +301,7 @@ if __name__ == "__main__":
         "sihaya.termux.properties": ThemeConverter.toTermux,
         "sihaya.reg": ThemeConverter.toWindowsConsole,
         "sihaya.sh": ThemeConverter.toLinuxShell,
+        "sihaya.vim": ThemeConverter.toVim,
         "sihaya.windows-terminal.json": ThemeConverter.toWindowsTerminal,
         "sihaya.Xresources": ThemeConverter.toXresources,
     }
