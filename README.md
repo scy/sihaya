@@ -34,13 +34,10 @@ If you like them too, that’s great, and if you have improvements to suggest, f
   * either via a shell script (by sending escape codes) or kernel command line parameters
 * [Termux](https://termux.com/)
 * Windows Console (`cmd.exe`)
+* [Windows Terminal](https://github.com/Microsoft/Terminal)
 * xterm (via `.Xresources` file)
 
 Visual Studio Code users should instead install the original [_One Dark Pro_ extension](https://marketplace.visualstudio.com/items?itemName=zhuangtongfa.Material-theme) that this project is based on.
-
-Planned:
-
-* [Windows Terminal](https://github.com/Microsoft/Terminal)
 
 ## Building
 

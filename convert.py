@@ -6,6 +6,8 @@ import yaml
 
 class ThemeConverter:
 
+    color_names = "black red green yellow blue magenta cyan white".split(" ")
+
     odp2ansi = {
         1: "error",         # red
         2: "green",         # green
@@ -137,6 +139,27 @@ class ThemeConverter:
             '"PopupColors=dword:00000083\r\n'
         return result
 
+    def toWindowsTerminal(self):
+        # Windows Terminal calls it "purple".
+        color_names = [
+            ("purple" if n == "magenta" else n)
+            for n in self.color_names
+        ]
+        return json.dumps({
+            "name": "Sihaya",
+            "cursorColor": self.rgb[16].get_rgb_hex(),
+            "background": self.rgb[0].get_rgb_hex(),
+            "foreground": self.rgb[7].get_rgb_hex(),
+            **{
+                color_names[i]: self.rgb[i].get_rgb_hex()
+                for i in range(8)
+            },
+            **{
+                "bright{}".format(color_names[i].title()): self.rgb[i+8].get_rgb_hex()
+                for i in range(8)
+            }
+        })
+
     def toXresources(self):
         return self.toKeyValue(
             specials={
@@ -169,6 +192,7 @@ if __name__ == "__main__":
         "sihaya.termux.properties": ThemeConverter.toTermux,
         "sihaya.reg": ThemeConverter.toWindowsConsole,
         "sihaya.sh": ThemeConverter.toLinuxShell,
+        "sihaya.windows-terminal.json": ThemeConverter.toWindowsTerminal,
         "sihaya.Xresources": ThemeConverter.toXresources,
     }
     print("Reading input file ...")
