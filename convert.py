@@ -234,6 +234,28 @@ class ThemeConverter:
             hiline(group, cfg) for group, cfg in attrs.items()
         ])
 
+    def toWezTerm(self):
+        def hexstr(rgb):
+            return f"'{rgb.get_rgb_hex()}'"
+
+        return "\n".join([
+            "[colors]",
+            "ansi = [",
+            *(f"  {hexstr(self.rgb[i])}," for i in range(0, 8)),
+            "]",
+            "brights = [",
+            *(f"  {hexstr(self.rgb[i])}," for i in range(8, 16)),
+            "]",
+            "background = " + hexstr(self.rgb[0]),
+            "cursor_bg = " + hexstr(self.rgb[16]),
+            "cursor_border = " + hexstr(self.rgb[16]),
+            "cursor_fg = " + hexstr(self.rgb[0]),
+            "",
+            "[metadata]",
+            "name = 'Sihaya'",
+            "origin_url = 'https://github.com/scy/sihaya'",
+        ]) + "\n"
+
     def toWindowsConsole(self):
         # Console is swapping red and blue as well as yellow and cyan around.
         mapping = [0, 4, 2, 6, 1, 5, 3, 7, 8, 12, 10, 14, 9, 13, 11, 15]
@@ -299,6 +321,7 @@ if __name__ == "__main__":
         "sihaya.alacritty": ThemeConverter.toAlacritty,
         "sihaya.cmdline": ThemeConverter.toLinuxKernelCmdline,
         "sihaya.termux.properties": ThemeConverter.toTermux,
+        "Sihaya.toml": ThemeConverter.toWezTerm,
         "sihaya.reg": ThemeConverter.toWindowsConsole,
         "sihaya.sh": ThemeConverter.toLinuxShell,
         "sihaya.vim": ThemeConverter.toVim,
